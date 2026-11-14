@@ -114,7 +114,7 @@ export function LandingPage({
 
   // Track active section as user scrolls
   useEffect(() => {
-    const sectionIds = ['hero', 'how-it-works', 'departments', 'features', 'about'];
+    const sectionIds = ['hero', 'how-it-works', 'features', 'departments', 'about'];
     const handleIntersect: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -660,63 +660,6 @@ export function LandingPage({
             </div>
           </section>
 
-          {/* MUNICIPAL DEPARTMENT SHOWCASE */}
-          <section className="px-6 md:px-10 lg:px-12 py-16 bg-[#0a0d1a]/60" id="departments">
-            <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-10">
-              <div>
-                <span className="font-mono text-xs text-[#4cd7f6] uppercase tracking-widest">
-                  Departmental Grid Matrix
-                </span>
-                <h2 className="text-3xl text-white font-bold mt-1">Dedicated Municipal Squads</h2>
-              </div>
-              <p className="text-xs sm:text-sm text-gray-400 max-w-md mt-2 md:mt-0">
-                Four specialized municipal divisions wired into unified real-time SLA thresholds with
-                dedicated on-call equipment units.
-              </p>
-            </div>
-
-            {/* Infinite Horizontal Carousel (3 cards desktop / 2 tablet / 1 mobile) */}
-            <div className="carousel-container">
-              <div className="carousel-track">
-                {[...deptCards, ...deptCards].map((dept, index) => (
-                  <div
-                    key={`${dept.name}-${index}`}
-                    onMouseMove={handleCardMouseMove}
-                    className="dept-carousel-card glass-card rounded-2xl bg-[#0f1224] p-5 flex flex-col justify-between border border-white/10 hover:border-[#9565F5]/50 shadow-xl group cursor-pointer"
-                  >
-                    <div>
-                      <div className="w-full h-40 rounded-xl overflow-hidden mb-4 relative">
-                        <img
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          alt={dept.name}
-                          src={dept.img}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0f1224] via-transparent to-transparent" />
-                        <span className="absolute top-2 right-2 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white font-mono text-xs font-semibold border border-white/10">
-                          SLA: {dept.sla}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <span className="material-symbols-outlined text-xl" style={{ color: dept.color }}>
-                          {dept.icon}
-                        </span>
-                        <h3 className="text-lg text-white font-bold">{dept.name}</h3>
-                      </div>
-                      <p className="text-xs text-gray-400 mb-5 leading-relaxed">
-                        {dept.desc}
-                      </p>
-                    </div>
-                    <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/5 flex items-center justify-between font-mono text-xs">
-                      <span className="text-gray-400">Active Fleet: {dept.fleet}</span>
-                      <span className="font-bold" style={{ color: dept.color }}>
-                        {dept.compliance}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
 
           {/* INTERACTIVE VERIFICATION PREVIEW & LEADERSHIP QUOTE */}
           <section className="px-6 md:px-10 lg:px-12 py-16" id="features">
@@ -805,7 +748,7 @@ export function LandingPage({
               </div>
 
               {/* Municipal Authority Endorsement */}
-              <div className="lg:col-span-5 flex flex-col justify-center space-y-4" id="about">
+              <div className="lg:col-span-5 flex flex-col justify-center space-y-4">
                 <span className="text-xs font-semibold text-[#cabeff] uppercase tracking-widest">
                   Municipal Authority Endorsement
                 </span>
@@ -834,8 +777,66 @@ export function LandingPage({
             </div>
           </section>
 
+          {/* MUNICIPAL DEPARTMENT SHOWCASE */}
+          <section className="px-6 md:px-10 lg:px-12 py-16 bg-[#0a0d1a]/60" id="departments">
+            <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-10">
+              <div>
+                <span className="font-mono text-xs text-[#4cd7f6] uppercase tracking-widest">
+                  Departmental Grid Matrix
+                </span>
+                <h2 className="text-3xl text-white font-bold mt-1">Dedicated Municipal Squads</h2>
+              </div>
+              <p className="text-xs sm:text-sm text-gray-400 max-w-md mt-2 md:mt-0">
+                Four specialized municipal divisions wired into unified real-time SLA thresholds with
+                dedicated on-call equipment units.
+              </p>
+            </div>
+
+            {/* Infinite Horizontal Carousel (3 cards desktop / 2 tablet / 1 mobile) */}
+            <div className="carousel-container">
+              <div className="carousel-track">
+                {[...deptCards, ...deptCards].map((dept, index) => (
+                  <div
+                    key={`${dept.name}-${index}`}
+                    onMouseMove={handleCardMouseMove}
+                    className="dept-carousel-card glass-card rounded-2xl bg-[#0f1224] p-5 flex flex-col justify-between border border-white/10 hover:border-[#9565F5]/50 shadow-xl group cursor-pointer"
+                  >
+                    <div>
+                      <div className="w-full h-40 rounded-xl overflow-hidden mb-4 relative">
+                        <img
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          alt={dept.name}
+                          src={dept.img}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0f1224] via-transparent to-transparent" />
+                        <span className="absolute top-2 right-2 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-white font-mono text-xs font-semibold border border-white/10">
+                          SLA: {dept.sla}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="material-symbols-outlined text-xl" style={{ color: dept.color }}>
+                          {dept.icon}
+                        </span>
+                        <h3 className="text-lg text-white font-bold">{dept.name}</h3>
+                      </div>
+                      <p className="text-xs text-gray-400 mb-5 leading-relaxed">
+                        {dept.desc}
+                      </p>
+                    </div>
+                    <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/5 flex items-center justify-between font-mono text-xs">
+                      <span className="text-gray-400">Active Fleet: {dept.fleet}</span>
+                      <span className="font-bold" style={{ color: dept.color }}>
+                        {dept.compliance}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
           {/* BOTTOM CTA BANNER */}
-          <section className="px-6 md:px-10 lg:px-12 py-16">
+          <section className="px-6 md:px-10 lg:px-12 py-16" id="about">
             <div
               onMouseMove={handleCardMouseMove}
               className="glass-card relative rounded-3xl bg-gradient-to-r from-[#0e4d6e]/40 via-[#141c2e] to-[#0a0e1a] p-8 md:p-14 overflow-hidden border border-[#7dd3fc]/20 shadow-2xl backdrop-blur-xl"
