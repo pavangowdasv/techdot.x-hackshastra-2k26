@@ -1,0 +1,6 @@
+{
+  "name": "NagarSetu Control Surface",
+  "description": "Municipal intelligence and automated civil remediation command center with live GIS radar, AI triage, field dispatch, and citizen verification.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
