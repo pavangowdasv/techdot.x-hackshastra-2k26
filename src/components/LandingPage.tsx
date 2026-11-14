@@ -78,7 +78,9 @@ export function LandingPage({
     }
     const el = document.getElementById(sectionId);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const headerOffset = 80;
+      const top = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      window.scrollTo({ top, behavior: 'smooth' });
       try {
         window.history.replaceState(null, '', `#${sectionId}`);
       } catch {
@@ -99,7 +101,9 @@ export function LandingPage({
         } else {
           const el = document.getElementById(toScroll);
           if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const headerOffset = 80;
+            const top = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+            window.scrollTo({ top, behavior: 'smooth' });
             if (toScroll === 'how-it-works') setActiveNav('how-it-works');
             else if (toScroll === 'features') setActiveNav('features');
             else if (toScroll === 'departments') setActiveNav('departments');
@@ -116,21 +120,21 @@ export function LandingPage({
   useEffect(() => {
     const sectionIds = ['hero', 'how-it-works', 'features', 'departments', 'about'];
     const handleIntersect: IntersectionObserverCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          if (id === 'hero') setActiveNav('home');
-          else if (id === 'how-it-works') setActiveNav('how-it-works');
-          else if (id === 'departments') setActiveNav('departments');
-          else if (id === 'features') setActiveNav('features');
-          else if (id === 'about') setActiveNav('about');
-        }
-      });
+      const visible = entries.filter((e) => e.isIntersecting);
+      if (visible.length > 0) {
+        visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        const id = visible[0].target.id;
+        if (id === 'hero') setActiveNav('home');
+        else if (id === 'how-it-works') setActiveNav('how-it-works');
+        else if (id === 'features') setActiveNav('features');
+        else if (id === 'departments') setActiveNav('departments');
+        else if (id === 'about') setActiveNav('about');
+      }
     };
 
     const observer = new IntersectionObserver(handleIntersect, {
-      rootMargin: '-20% 0px -55% 0px',
-      threshold: 0.05,
+      rootMargin: '-80px 0px -40% 0px',
+      threshold: [0.1, 0.25, 0.5],
     });
 
     sectionIds.forEach((id) => {
@@ -747,30 +751,46 @@ export function LandingPage({
                 </div>
               </div>
 
-              {/* Municipal Authority Endorsement */}
+              {/* AI Verification & Quality Matrix */}
               <div className="lg:col-span-5 flex flex-col justify-center space-y-4">
-                <span className="text-xs font-semibold text-[#cabeff] uppercase tracking-widest">
-                  Municipal Authority Endorsement
+                <span className="text-xs font-semibold text-[#4cd7f6] uppercase tracking-widest">
+                  Neural Quality Control
                 </span>
-                <blockquote className="text-xl sm:text-2xl text-white font-medium leading-snug">
-                  “NagarSetu transformed our civic governance from reactive firefighting into an
-                  automated, predictable machine. What previously took 14 days of paperwork now
-                  resolves in under 24 hours.”
-                </blockquote>
-                <div className="flex items-center gap-4 pt-2">
-                  <img
-                    className="w-14 h-14 rounded-full object-cover ring-2 ring-[#cabeff]/60"
-                    alt="Dr. Arvind Sharma, IAS"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLlLUntkzxdRa3tly06aNSaNj1UBRJs5RizSpc4vZnYPT7q_NgpdYWuyFtxw4jlArwnjn_wMCTIeM0CT-m72gn-VwqeXkG7oAgxeyGvxW6c-QTpuE0MOpimdV1bVkdjN2b0tO9RdGLoeVygRNN87qf9Ve-M9E2V0cRc_9T28bm5Hgy5oMww2POjpym5w1CQr-xlHFLEkA2oHhLKiffpvrAPY0guRX132npRn41B9ga"
-                  />
-                  <div className="flex flex-col">
-                    <span className="text-base text-white font-bold">Dr. Arvind Sharma, IAS</span>
-                    <span className="text-xs text-[#4cd7f6]">
-                      Commissioner of Urban Infrastructure
+                <h3 className="text-2xl sm:text-3xl text-white font-bold leading-tight">
+                  Automated Photographic Verification
+                </h3>
+                <p className="text-sm text-gray-400 leading-relaxed">
+                  Every civic fix is rigorously cross-checked with neural computer vision and verified by the citizen before the ticket can close.
+                </p>
+                <div className="space-y-3 pt-2">
+                  <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-3">
+                    <span className="material-symbols-outlined text-[#27C5E8] text-xl shrink-0 mt-0.5">
+                      center_focus_strong
                     </span>
-                    <span className="text-[11px] text-gray-400">
-                      Government of Karnataka Municipal Grids
+                    <div>
+                      <h4 className="text-sm font-semibold text-white">99.4% Computer Vision Match</h4>
+                      <p className="text-xs text-gray-400 mt-0.5">Compares pre-repair crater/damage geometry with fresh asphalt or sealed conduits.</p>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-3">
+                    <span className="material-symbols-outlined text-[#9565F5] text-xl shrink-0 mt-0.5">
+                      pin_drop
                     </span>
+                    <div>
+                      <h4 className="text-sm font-semibold text-white">Anti-Fraud Geofencing</h4>
+                      <p className="text-xs text-gray-400 mt-0.5">50m GPS telemetry ensures field crews are physically present at the reported coordinates.</p>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-3">
+                    <span className="material-symbols-outlined text-[#10B981] text-xl shrink-0 mt-0.5">
+                      how_to_reg
+                    </span>
+                    <div>
+                      <h4 className="text-sm font-semibold text-white">Citizen Final Sign-Off</h4>
+                      <p className="text-xs text-gray-400 mt-0.5">Residents rate the repair quality with 1-click confirmation directly from their phone.</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -835,8 +855,45 @@ export function LandingPage({
             </div>
           </section>
 
-          {/* BOTTOM CTA BANNER */}
-          <section className="px-6 md:px-10 lg:px-12 py-16" id="about">
+          {/* ABOUT SECTION: MUNICIPAL ENDORSEMENT & CITIZEN MISSION */}
+          <section className="px-6 md:px-10 lg:px-12 py-16 space-y-10" id="about">
+            {/* Municipal Authority Endorsement Card */}
+            <div
+              onMouseMove={handleCardMouseMove}
+              className="glass-card relative rounded-3xl bg-[#0f1224] p-8 md:p-10 border border-white/10 shadow-2xl"
+            >
+              <div className="flex flex-col md:flex-row items-center gap-8 justify-between">
+                <div className="flex-1 space-y-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#9565F5]/15 border border-[#9565F5]/30 text-[#cabeff] text-xs font-semibold uppercase tracking-wider">
+                    <span className="material-symbols-outlined text-sm">verified</span>
+                    <span>Municipal Authority Endorsement</span>
+                  </div>
+                  <blockquote className="text-xl sm:text-2xl text-white font-medium leading-snug">
+                    “NagarSetu transformed our civic governance from reactive firefighting into an
+                    automated, predictable machine. What previously took 14 days of paperwork now
+                    resolves in under 24 hours.”
+                  </blockquote>
+                  <div className="flex items-center gap-4 pt-3">
+                    <img
+                      className="w-14 h-14 rounded-full object-cover ring-2 ring-[#cabeff]/60 shadow-lg"
+                      alt="Dr. Arvind Sharma, IAS"
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLlLUntkzxdRa3tly06aNSaNj1UBRJs5RizSpc4vZnYPT7q_NgpdYWuyFtxw4jlArwnjn_wMCTIeM0CT-m72gn-VwqeXkG7oAgxeyGvxW6c-QTpuE0MOpimdV1bVkdjN2b0tO9RdGLoeVygRNN87qf9Ve-M9E2V0cRc_9T28bm5Hgy5oMww2POjpym5w1CQr-xlHFLEkA2oHhLKiffpvrAPY0guRX132npRn41B9ga"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-base text-white font-bold">Dr. Arvind Sharma, IAS</span>
+                      <span className="text-xs text-[#4cd7f6] font-medium">
+                        Commissioner of Urban Infrastructure
+                      </span>
+                      <span className="text-[11px] text-gray-400">
+                        Government of Karnataka Municipal Grids
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom CTA Banner */}
             <div
               onMouseMove={handleCardMouseMove}
               className="glass-card relative rounded-3xl bg-gradient-to-r from-[#0e4d6e]/40 via-[#141c2e] to-[#0a0e1a] p-8 md:p-14 overflow-hidden border border-[#7dd3fc]/20 shadow-2xl backdrop-blur-xl"
@@ -859,7 +916,7 @@ export function LandingPage({
                   <button
                     type="button"
                     onClick={onOpenReportModal}
-                    className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#00d4ff] to-[#7dd3fc] hover:from-[#38bdf8] hover:to-[#00d4ff] text-[#001f2e] font-bold text-sm shadow-[0_0_20px_rgba(125,211,252,0.45)] transition-all flex items-center gap-2"
+                    className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#00d4ff] to-[#7dd3fc] hover:from-[#38bdf8] hover:to-[#00d4ff] text-[#001f2e] font-bold text-sm shadow-[0_0_20px_rgba(125,211,252,0.45)] transition-all flex items-center gap-2 cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-lg">camera_alt</span>
                     <span>Lodge a Complaint Right Now</span>
@@ -867,7 +924,7 @@ export function LandingPage({
                   <button
                     type="button"
                     onClick={() => setPortalModalOpen(true)}
-                    className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium text-sm border border-[#7dd3fc]/30 hover:border-[#7dd3fc]/50 backdrop-blur-md transition-all flex items-center gap-2"
+                    className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium text-sm border border-[#7dd3fc]/30 hover:border-[#7dd3fc]/50 backdrop-blur-md transition-all flex items-center gap-2 cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-[#7dd3fc] text-lg">
                       dataset
